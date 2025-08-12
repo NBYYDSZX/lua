@@ -1,0 +1,773 @@
+local AutoSettings = {
+    AutoSwing = false,
+    AutoSell = false,
+    AutoR = false,
+    AutoS = false,
+    AutoB = false,
+    AutoC = false,
+    AutoE = false,
+    AutoCr = false,
+    AutoTa = false,
+    AutoBo = false,
+    AutoBo1 = false,
+    AutoBo2 = false
+}
+
+for k, v in pairs(AutoSettings) do
+    getgenv()[k] = v
+end
+
+local function teleportTo(placeCFrame)
+    local plyr = game.Players.LocalPlayer
+    if plyr and plyr.Character and plyr.Character:FindFirstChild("HumanoidRootPart") then
+        plyr.Character.HumanoidRootPart.CFrame = placeCFrame
+    end
+end
+
+local AutoFunctions = {
+    doBo = function()
+        while getgenv().AutoBo do
+            if not game:GetService("Workspace"):FindFirstChild("bossFolder") then break end
+            if not game:GetService("Workspace").bossFolder:FindFirstChild("RobotBoss") then break end
+            teleportTo(game:GetService("Workspace").bossFolder.RobotBoss.UpperTorso.CFrame)
+            local args = {[1] = "swingKatana"}
+            game:GetService("Players").LocalPlayer.ninjaEvent:FireServer(unpack(args))
+            task.wait()
+        end
+    end,
+
+    doBo1 = function()
+        while getgenv().AutoBo1 do
+            if not game:GetService("Workspace"):FindFirstChild("bossFolder") then break end
+            if not game:GetService("Workspace").bossFolder:FindFirstChild("EternalBoss") then break end
+            teleportTo(game:GetService("Workspace").bossFolder.EternalBoss.UpperTorso.CFrame)
+            local args = {[1] = "swingKatana"}
+            game:GetService("Players").LocalPlayer.ninjaEvent:FireServer(unpack(args))
+            task.wait()
+        end
+    end,
+
+    doBo2 = function()
+        while getgenv().AutoBo2 do
+            if not game:GetService("Workspace"):FindFirstChild("bossFolder") then break end
+            if not game:GetService("Workspace").bossFolder:FindFirstChild("AncientMagmaBoss") then break end
+            teleportTo(game:GetService("Workspace").bossFolder.AncientMagmaBoss.UpperTorso.CFrame)
+            local args = {[1] = "swingKatana"}
+            game:GetService("Players").LocalPlayer.ninjaEvent:FireServer(unpack(args))
+            task.wait()
+        end
+    end,
+
+    doE = function()
+        while getgenv().AutoE do
+            local elements = {
+                "Inferno", "Frost", "Lightning", "Electral Chaos",
+                "Shadow Charge", "Masterful Wrath", "Shadowfire",
+                "Eternity Storm", "Blazing Entity"
+            }
+            
+            for _, element in ipairs(elements) do
+                local args = {[1] = element}
+                game:GetService("ReplicatedStorage").rEvents.elementMasteryEvent:FireServer(unpack(args))
+                task.wait()
+            end
+        end
+    end,
+
+    doSwing = function()
+        while getgenv().AutoSwing do
+            local args = {[1] = "swingKatana"}
+            game:GetService("Players").LocalPlayer.ninjaEvent:FireServer(unpack(args))    
+            task.wait()
+        end
+    end,
+
+    doS = function()
+        while getgenv().AutoS do
+            local args = {[1] = "buyAllSwords", [2] = "Blazing Vortex Island"}
+            game:GetService("Players").LocalPlayer.ninjaEvent:FireServer(unpack(args))        
+            task.wait(0.5)
+        end
+    end,
+
+    doB = function()
+        while getgenv().AutoB do
+            local args = {[1] = "buyAllBelts", [2] = "Blazing Vortex Island"}
+            game:GetService("Players").LocalPlayer.ninjaEvent:FireServer(unpack(args))        
+            task.wait(0.5)
+        end
+    end,
+
+    doR = function()
+        while getgenv().AutoR do
+            local ranks = {
+                "Grasshopper", "Apprentice", "Samurai", "Assassin", "Shadow",
+                "Ninja", "Master Ninja", "Sensei", "Master Sensei", "Ninja Legend",
+                "Master Of Shadows", "Immortal Assassin", "Eternity Hunter", "Shadow Legend", "Dragon Warrior",
+                "Dragon Master", "Chaos Sensei", "Chaos Legend", "Master Of Elements", "Elemental Legend",
+                "Ancient Battle Master", "Ancient Battle Legend", "Legendary Shadow Duelist", "Master Legend Assassin", "Mythic Shadowmaster",
+                "Legendary Shadowmaster", "Awakened Scythemaster", "Awakened Scythe Legend", "Master Legend Zephyr", "Golden Sun Shuriken Master",
+                "Golden Sun Shuriken Legend", "Dark Sun Samurai Legend", "Dragon Evolution Form I", "Dragon Evolution Form II", "Dragon Evolution Form III",
+                "Dragon Evolution Form IV", "Dragon Evolution Form V", "Cybernetic Electro Master", "Cybernetic Electro Legend", "Shadow Chaos Assassin",
+                "Shadow Chaos Legend", "Infinity Sensei", "Infinity Legend", "Aether Genesis Master Ninja", "Master Legend Sensei Hunter",
+                "Skystorm Series Samurai Legend", "Master Elemental Hero", "Eclipse Series Soul Master", "Starstrike Master Sensei", "Evolved Series Master Ninja",
+                "Dark Elements Guardian", "Elite Series Master Legend", "Infinity Shadows Master", "Lighting Storm Sensei",
+                "Dark Elements Blademaster", "Rising Shadow Eternal Ninja", "Skyblade Ninja Master", "Shadow Storm Sensei", "Comet Strike Lion",
+                "Cybernetic Azure Sensei", "Ultra Genesis Shadow"
+            }
+            
+            for i = 1, #ranks, 5 do
+                for j = i, math.min(i+4, #ranks) do
+                    local args = {[1] = "buyRank", [2] = ranks[j]}
+                    game:GetService("Players").LocalPlayer.ninjaEvent:FireServer(unpack(args))
+                end
+                task.wait()
+            end
+        end
+    end,
+
+    doSell = function()
+        while getgenv().AutoSell do
+            local player = game:GetService("Players").LocalPlayer
+            if player.Character and player.Character:FindFirstChild("Head") then
+                local playerHead = player.Character.Head
+                for _, v in pairs(game:GetService("Workspace").sellAreaCircles.sellAreaCircle16.circleInner:GetDescendants()) do
+                    if v.Name == "TouchInterest" and v.Parent then
+                        firetouchinterest(playerHead, v.Parent, 0)
+                        task.wait(0.1)
+                        firetouchinterest(playerHead, v.Parent, 1)
+                        break
+                    end
+                end
+            end
+            task.wait()
+        end
+    end,
+
+    doC = function()
+        while getgenv().AutoC do
+            local coinLocations = {
+                game:GetService("Workspace").spawnedCoins.Valley["Pink Chi Crate"].CFrame,
+                game:GetService("Workspace").spawnedCoins.Valley["Blue Chi Crate"].CFrame,
+                game:GetService("Workspace").spawnedCoins.Valley["Chi Crate"].CFrame
+            }
+            
+            for _, location in ipairs(coinLocations) do
+                teleportTo(location)
+                task.wait(0.1)
+            end
+            task.wait()
+        end
+    end
+}
+
+getgenv().Plr = game:GetService("Players")
+getgenv().LP = Plr.LocalPlayer
+getgenv().C_NPlayers = {}
+getgenv().KillPlayers = {}
+getgenv().KillEnabled = false
+getgenv().MassKillEnabled = false
+
+local PlayerList = {}
+for _, player in pairs(Plr:GetPlayers()) do
+    table.insert(PlayerList, player.Name)
+end
+
+Plr.PlayerAdded:Connect(function(player)
+    if not table.find(PlayerList, player.Name) then
+        table.insert(PlayerList, player.Name)
+    end
+end)
+
+Plr.PlayerRemoving:Connect(function(player)
+    if table.find(PlayerList, player.Name) then
+        table.remove(PlayerList, table.find(PlayerList, player.Name))
+    end
+end)    
+
+-- 创建UI部分
+local WindUI = loadstring(game:HttpGet("https://github.com/Footagesus/WindUI/releases/latest/download/main.lua"))()
+
+WindUI:Notify({
+    Title = "已自动反作弊",
+    Content = "开启成功",
+    Duration = 5,
+})
+
+WindUI:Notify({
+    Title = "欢迎尊贵的1.用户",
+    Content = "已开启",
+    Duration = 5,
+})
+
+WindUI:Notify({
+    Title = "脚本永久免费 请勿倒卖 如有问题 询问QQ",
+    Content = "已开启",
+    Duration = 5,
+})
+
+local LocalPlayer = game:GetService("Players").LocalPlayer
+
+local Window = WindUI:CreateWindow({
+    Title = "1.HUBKM ZHONGXI",
+    Icon = "rbxassetid://81057495551471",
+    IconThemed = true,
+    Author = "忍者传奇",
+    Folder = "CloudHub",
+    Size = UDim2.fromOffset(350, 400),
+    Transparent = true,
+    Theme = "Dark",
+    User = {
+        Enabled = true,
+        Callback = function() print("点击了用户按钮") end,
+        Anonymous = false
+    },
+    SideBarWidth = 200,
+    ScrollBarEnabled = true,
+})
+
+Window:EditOpenButton({
+    Title = "1.HUBKM .忍者传奇.",
+    Icon = "star",
+    CornerRadius = UDim.new(0,16),
+    StrokeThickness = 2,
+    Color = ColorSequence.new(
+        Color3.fromHex("2D0A20"), 
+        Color3.fromHex("FFFFFF")
+    ),
+    Draggable = true,
+})
+
+local MainSection = Window:Section({
+    Title = "功能列表",
+    Opened = true,
+})
+
+-- 自动功能标签
+local AutoTab = MainSection:Tab({ Title = "自动功能", Icon = "Sword" })    
+
+AutoTab:Toggle({
+    Title = "自动挥刀",
+    Description = "启用/禁用自动挥刀",
+    Default = false,
+    Callback = function(value)
+        getgenv().AutoSwing = value
+        if value then 
+            task.spawn(AutoFunctions.doSwing)
+        end
+    end
+})
+        
+AutoTab:Toggle({
+    Title = "自动收集元气",
+    Description = "启用/禁用自动收集元气",
+    Default = false,
+    Callback = function(value)
+        getgenv().AutoC = value
+        if value then 
+            task.spawn(AutoFunctions.doC)
+        end
+    end
+})
+
+AutoTab:Toggle({
+    Title = "自动购买等级",
+    Description = "启用/禁用自动购买等级",
+    Default = false,
+    Callback = function(value)
+        getgenv().AutoR = value
+        if value then 
+            task.spawn(AutoFunctions.doR)
+        end
+    end
+})
+
+AutoTab:Toggle({
+    Title = "自动购买武器",
+    Description = "启用/禁用自动购买武器",
+    Default = false,
+    Callback = function(value)
+        getgenv().AutoS = value
+        if value then 
+            task.spawn(AutoFunctions.doS)
+        end
+    end
+})
+
+AutoTab:Toggle({
+    Title = "自动购买腰带",
+    Description = "启用/禁用自动购买腰带",
+    Default = false,
+    Callback = function(value)
+        getgenv().AutoB = value
+        if value then 
+            task.spawn(AutoFunctions.doB)
+        end
+    end
+})
+
+AutoTab:Toggle({
+    Title = "自动购买技能",
+    Description = "启用/禁用自动购买技能",
+    Default = false,
+    Callback = function(value)
+        getgenv().AutoCr = value
+        if value then
+            task.spawn(function()
+                while getgenv().AutoCr do
+                    local args = {[1] = "buyAllSkills"}
+                    local skills = {
+                        "Ground", "Astral Island", "Space Island", 
+                        "Tundra Island", "Eternal Island", "Blazing Vortex Island"
+                    }
+                    for _, skill in ipairs(skills) do
+                        game:GetService("ReplicatedStorage").ninjaEvent:FireServer(args[1], skill)
+                    end
+                    task.wait(0.5)
+                end
+            end)
+        end
+    end
+})
+
+AutoTab:Toggle({
+    Title = "自动购买飞镖",
+    Description = "启用/禁用自动购买飞镖",
+    Default = false,
+    Callback = function(value)
+        getgenv().AutoTa = value
+        if value then
+            task.spawn(function()
+                while getgenv().AutoTa do
+                    local args = {[1] = "buyAllShurikens"}
+                    local islands = {
+                        "Ground", "Astral Island", "Space Island", 
+                        "Tundra Island", "Eternal Island", "Blazing Vortex Island"
+                    }
+                    for _, island in ipairs(islands) do
+                        game:GetService("ReplicatedStorage").ninjaEvent:FireServer(args[1], island)
+                    end
+                    task.wait(0.5)
+                end
+            end)
+        end
+    end
+})
+
+AutoTab:Toggle({
+    Title = "自动出售",
+    Description = "启用/禁用自动出售",
+    Default = false,
+    Callback = function(value)
+        getgenv().AutoSell = value
+        if value then 
+            task.spawn(AutoFunctions.doSell)
+        end
+    end
+})
+
+-- Boss功能标签
+local BossTab = MainSection:Tab({ Title = "boss功能", Icon = "Sword" })   
+
+BossTab:Toggle({
+    Title = "自动Boss ①",
+    Description = "启用/禁用自动Boss ①",
+    Default = false,
+    Callback = function(value)
+        getgenv().AutoBo = value
+        if value then 
+            task.spawn(AutoFunctions.doBo)
+        end
+    end
+})
+
+BossTab:Toggle({
+    Title = "自动Boss ②",
+    Description = "启用/禁用自动boss②",
+    Default = false,
+    Callback = function(value)
+        getgenv().AutoBo1 = value
+        if value then 
+            task.spawn(AutoFunctions.doBo1)
+        end
+    end
+})
+
+BossTab:Toggle({
+    Title = "自动boss ③",
+    Description = "启用/禁用自动boss ③",
+    Default = false,
+    Callback = function(value)
+        getgenv().AutoBo2 = value
+        if value then 
+            task.spawn(AutoFunctions.doBo2)
+        end
+    end
+})
+
+-- 其他功能标签
+local OtherTab = MainSection:Tab({ Title = "其他功能", Icon = "Sword" })        
+
+OtherTab:Toggle({
+    Title = "全体杀戮",
+    Description = "启用/禁用全体杀戮",
+    Default = false,
+    Callback = function(value)
+        getgenv().MassKillEnabled = value
+        if value then
+            task.spawn(function()
+                local SpinSpeed = 5
+                local Height = 1
+                local Radius = 4
+                
+                while getgenv().MassKillEnabled do
+                    for _, player in pairs(game:GetService("Players"):GetPlayers()) do
+                        if player ~= game:GetService("Players").LocalPlayer and not table.find(getgenv().C_NPlayers, player.Name) then
+                            if player.Character and player.Character:FindFirstChild("HumanoidRootPart") then
+                                game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(
+                                    player.Character.HumanoidRootPart.Position + 
+                                    Vector3.new(
+                                        math.sin(tick() * SpinSpeed * math.pi) * Radius, 
+                                        Height, 
+                                        math.cos(tick() * SpinSpeed * math.pi) * Radius
+                                    ),
+                                    player.Character.HumanoidRootPart.Position
+                                )
+                                
+                                workspace.Gravity = 0
+                                
+                                task.wait()
+                                if game:GetService("Players").LocalPlayer.Character:FindFirstChildOfClass("Tool") then
+                                    game:GetService("Players").LocalPlayer.ninjaEvent:FireServer("swingKatana")
+                                else
+                                    for _, tool in pairs(game:GetService("Players").LocalPlayer.Backpack:GetChildren()) do
+                                        if tool:IsA("Tool") then
+                                            if tool:FindFirstChild("attackShurikenScript") or tool:FindFirstChild("attackKatanaScript") then
+                                                game:GetService("Players").LocalPlayer.Character.Humanoid:EquipTool(tool)
+                                            end
+                                        end
+                                    end
+                                end
+                            end
+                        end
+                    end
+                    task.wait()
+                end
+                workspace.Gravity = 196.2
+            end)
+        end
+    end
+})
+
+OtherTab:Toggle({
+    Title = "收集所有宝箱",
+    Description = "启用/禁用收集",
+    Default = false,
+    Callback = function(value)
+        if value then
+            task.spawn(function()
+                while value do
+                    if LocalPlayer.Character and LocalPlayer.Character:FindFirstChild("HumanoidRootPart") then
+                        local chests = {
+                            "mythicalChest", "goldenChest", "enchantedChest",
+                            "magmaChest", "legendsChest", "eternalChest"
+                        }
+                        
+                        for _,chest in ipairs(chests) do
+                            local chestObj = game:GetService("Workspace"):FindFirstChild(chest)
+                            if chestObj and chestObj:FindFirstChild("circleInner") then
+                                LocalPlayer.Character.HumanoidRootPart.CFrame = chestObj.circleInner.CFrame
+                                task.wait(0.5)
+                            end
+                        end
+                    end
+                    task.wait()
+                end
+            end)
+        end
+    end
+})
+
+OtherTab:Toggle({
+    Title = "解锁所有岛屿",
+    Description = "启用/禁用传送",
+    Default = false,
+    Callback = function(value)
+        if value then
+            task.spawn(function()
+                while value do
+                    local islands = {
+                        "Ground", "Astral Island", "Space Island", 
+                        "Tundra Island", "Eternal Island", "Blazing Vortex Island"
+                    }
+                    for _, island in ipairs(islands) do
+                        local args = {[1] = "teleportToZone", [2] = island}
+                        game:GetService("ReplicatedStorage").ninjaEvent:FireServer(unpack(args))
+                        task.wait(0.5)
+                    end
+                    task.wait()
+                end
+            end)
+        end
+    end
+})
+
+-- 业绩功能标签
+local AchievementTab = MainSection:Tab({ Title = "业绩功能_附加点小东西", Icon = "Sword" })
+
+AchievementTab:Toggle({
+    Title = "快速手里剑",
+    Description = "启用/禁用快速手里剑",
+    Default = false,
+    Callback = function(value)
+        if value then
+            task.spawn(function()
+                while value do
+                    for _,tool in pairs(LocalPlayer.Backpack:GetChildren()) do
+                        if tool:FindFirstChild("attackShurikenScript") and tool:FindFirstChild("attackTime") then
+                            tool.attackTime.Value = 0.1
+                        end
+                    end
+                    task.wait()
+                end
+            end)
+        end
+    end
+})
+
+AchievementTab:Input({
+    Title = "修改连跳",
+    Placeholder = "输入连跳次数",
+            Callback = function(Value)
+                game.Players.LocalPlayer.multiJumpCount.Value = tonumber(Value)
+            end
+        })
+        
+AchievementTab:Toggle({
+    Title = "获取全元素",
+    Description = "启用/禁用全部元素",
+    Default = false,
+    Callback = function(value)
+        getgenv().AutoE = value
+        if value then 
+            task.spawn(AutoFunctions.doE)
+        end
+    end
+})
+
+AchievementTab:Toggle({
+    Title = "黑暗业绩",
+    Description = "启用/禁用黑暗业绩 刷取",
+    Default = false,
+    Callback = function(value)
+        if value then
+            task.spawn(function()
+                while value do
+                    if LocalPlayer.Character and LocalPlayer.Character:FindFirstChild("HumanoidRootPart") then
+                        local chest = game:GetService("Workspace"):FindFirstChild("evilKarmaChest")
+                        if chest and chest:FindFirstChild("circleInner") then
+                            LocalPlayer.Character.HumanoidRootPart.CFrame = chest.circleInner.CFrame
+                            task.wait(5)
+                        end
+                    end
+                    task.wait()
+                end
+            end)
+        end
+    end
+})    
+
+AchievementTab:Toggle({
+    Title = "光明业绩",
+    Description = "启用/禁用光明业绩 刷取",
+    Default = false,
+    Callback = function(value)
+        if value then
+            task.spawn(function()
+                while value do
+                    if LocalPlayer.Character and LocalPlayer.Character:FindFirstChild("HumanoidRootPart") then
+                        local chest = game:GetService("Workspace"):FindFirstChild("lightKarmaChest")
+                        if chest and chest:FindFirstChild("circleInner") then
+                            LocalPlayer.Character.HumanoidRootPart.CFrame = chest.circleInner.CFrame
+                            task.wait(5)
+                        end
+                    end
+                    task.wait()
+                end
+            end)
+        end
+    end
+})
+
+-- 宠物功能标签
+local PetTab = MainSection:Tab({ Title = "宠物功能", Icon = "Sword" })    
+
+PetTab:Toggle({
+    Title = "自动宠物等级",
+    Description = "启用/禁用自动刷宠物等级",
+    Default = false,
+    Callback = function(value)
+        if value then
+            task.spawn(function()
+                while value do
+                    if LocalPlayer.Character and LocalPlayer.Character:FindFirstChild("HumanoidRootPart") then
+                        for _,v in pairs(workspace.Hoops:GetDescendants()) do
+                            if v:IsA("MeshPart") and v:FindFirstChild("touchPart") then
+                                firetouchinterest(LocalPlayer.Character.HumanoidRootPart, v.touchPart, 0)
+                                task.wait()
+                                firetouchinterest(LocalPlayer.Character.HumanoidRootPart, v.touchPart, 1)
+                            end
+                        end
+                    end
+                    task.wait()
+                end
+            end)
+        end
+    end
+})
+
+PetTab:Toggle({
+    Title = "自动进化宠物",
+    Description = "启用/禁用自动进化",
+    Default = false,
+    Callback = function(value)
+        if value then
+            task.spawn(function()
+                while value do
+                    for _,v in pairs(LocalPlayer.petsFolder:GetChildren()) do
+                        for _,x in pairs(v:GetChildren()) do
+                            game:GetService("ReplicatedStorage").rEvents.petEvolveEvent:FireServer("evolvePet", x.Name)
+                        end
+                    end
+                    task.wait(3)
+                end
+            end)
+        end
+    end
+})
+
+-- 创建抽奖机功能标签
+local LotteryTab = MainSection:Tab({ Title = "水晶功能", Icon = "Gift" })
+
+local crystalOptions = {
+    "Astral Crystal",
+    "Golden Crystal",
+    "Inferno Crystal",
+    "Galaxy Crystal",
+    "Blue Crystal",
+    "Purple Crystal",
+    "Frozen Crystal",
+    "Eternal Crystal",
+    "Storm Crystal",
+    "Blue Crystal",
+    "Purple Crystal",
+    "Frozen Crystal",
+    "Eternal Crystal",
+    "Storm Crystal",
+    "Thunder Crystal",
+    "Ultra Shockwave Crystal",
+    "Secret Blades Crystal",
+    "Infinity Void Crystal",
+}
+
+local selectedCrystal = nil
+local autoBuyEnabled = false
+
+LotteryTab:Dropdown({
+    Title = "选择抽奖机",
+    Values = crystalOptions,
+    Value = "--",
+    Callback = function(value)
+        selectedCrystal = value
+        print("已选择抽奖机:", value)
+    end
+})
+
+LotteryTab:Toggle({
+    Title = "自动购买",
+    Description = "启用/禁用自动购买",
+    Default = false,
+    Callback = function(value)
+        autoBuyEnabled = value
+        if autoBuyEnabled and selectedCrystal then
+            task.spawn(function()
+                while autoBuyEnabled and selectedCrystal do
+                    local A_1 = "openCrystal"
+                    local A_2 = selectedCrystal
+                    local Event = game:GetService("ReplicatedStorage"):FindFirstChild("rEvents")
+                    if Event then
+                        Event = Event:FindFirstChild("openCrystalRemote")
+                        if Event then
+                            Event:InvokeServer(A_1, A_2)
+                        end
+                    end
+                    task.wait(0.5)
+                end
+            end)
+        end
+    end
+})
+
+-- 修改金币数据标签
+local GoldTab = MainSection:Tab({ Title = "修改金币数据", Icon = "Coins" })
+
+GoldTab:Button({
+    Title = "初始化第一步",
+    Description = "执行初始化第一步操作",
+    Callback = function()
+        game:GetService("ReplicatedStorage").rEvents.zenMasterEvent:FireServer("convertGems", -9999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999)
+        print("初始化第一步已完成")
+    end
+})
+
+GoldTab:Button({
+    Title = "初始化第二步",
+    Description = "执行初始化第二步操作",
+    Callback = function()
+        game:GetService("ReplicatedStorage").rEvents.elementMasteryEvent:FireServer("Shadow Charge")
+        print("初始化第二步已完成")
+    end
+})
+
+local lastInputValue = 0
+GoldTab:Input({
+    Title = "输入数字上传数据",
+    Placeholder = "请输入数字",
+    Callback = function(input)
+        local num = tonumber(input)
+        if num and num > 0 then
+            lastInputValue = num
+            game:GetService("ReplicatedStorage").rEvents.zenMasterEvent:FireServer("convertGems", num)
+            print("已上传数字:", num)
+        else
+            print("请输入有效的正数")
+        end
+    end
+})
+
+local isLooping = false
+GoldTab:Toggle({
+    Title = "循环上传",
+    Description = "启用/禁用自动循环上传",
+    Default = false,
+    Callback = function(value)
+        isLooping = value
+        if isLooping then
+            task.spawn(function()
+                while isLooping and lastInputValue > 0 do
+                    game:GetService("ReplicatedStorage").rEvents.zenMasterEvent:FireServer("convertGems", lastInputValue)
+                    task.wait(0.5)
+                end
+            end)
+        end
+    end
+})
+
+local ContactTab = MainSection:Tab({ Title = "联系作者", Icon = "Sword" })
+ContactTab:Input({
+    Title = "关注我们",
+    Description = "QQ号3049653343",
+    Callback = function(text)
+        print("输入内容:", text)
+    end
+})
